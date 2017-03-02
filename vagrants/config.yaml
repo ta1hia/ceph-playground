@@ -1,0 +1,10 @@
+---
+vagrants:
+  "ubuntu/trusty64": "ubuntu/trusty64"
+  "ubuntu/xenial64": "ubuntu/xenial64"
+
+hosts:
+  admin: 10.202.200.2
+  node1: 10.202.200.3
+  node2: 10.202.200.4
+  node3: 10.202.200.5

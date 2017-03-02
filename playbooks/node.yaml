@@ -1,0 +1,16 @@
+---
+
+- name: admin
+  hosts: all
+  sudo: yes
+  gather_facts: false
+
+  pre_tasks:
+    - raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+  vars_files:
+    - group_vars/all.yml
+
+  roles:
+    - common
+    - ceph

@@ -1,0 +1,27 @@
+- name: add 'wheel' group
+  group: name=wheel state=present
+
+- name: allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+- name: add sudoers users to wheel group
+  user: name={{ssh_user}} groups=wheel append=yes state=present shell=/bin/bash createhome=yes
+
+- name: make ssh key directory
+  file: state=directory owner={{ssh_user}} group={{ssh_user}} mode=0700
+        path="/home/{{ssh_user}}/.ssh"
+
+- name: copy ssh key to authorized_keys
+  assemble: dest="/home/{{ssh_user}}/.ssh/authorized_keys" owner={{ssh_user}}
+            group={{ssh_user}} mode=0400 remote_src=False src=SSH/pub/
+
+- name: copy ssh keys to admin node
+  copy: src={{ item }} dest=/home/{{ssh_user}}/.ssh/ owner={{ssh_user}} group={{ssh_user}}  mode=600
+  with_fileglob: 
+    - SSH/pub/*
+    - SSH/key/*
+  when: admin_node is defined

@@ -1,0 +1,21 @@
+---
+
+common_packages:
+  - curl
+  - python-pycurl
+  - hdparm
+  - ntp
+  - openssh-server
+
+debian_ceph_packages:
+  - ceph
+  - ceph-common   
+  - ceph-fs-common 
+  - ceph-fuse
+
+ceph_release_key_url: https://download.ceph.com/keys/release.asc
+ceph_stable_release: kraken
+
+lsb_release: xenial
+
+ssh_user: peanut

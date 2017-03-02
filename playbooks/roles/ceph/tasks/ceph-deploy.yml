@@ -1,0 +1,18 @@
+---
+
+- name: add ceph release key
+  apt_key:
+    url: "{{ ceph_release_key_url }}"
+    state: present
+
+- name: add ceph packages
+  apt_repository:
+    repo: deb https://download.ceph.com/debian-{{ceph_stable_release}} {{lsb_release}} main
+    state: present
+
+- name: apt-update and install ceph-deploy 
+  apt:
+    name: ceph-deploy
+    update_cache: yes
+  when: admin_node is defined
+

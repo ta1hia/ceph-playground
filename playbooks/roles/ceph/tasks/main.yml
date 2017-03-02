@@ -1,0 +1,8 @@
+---
+
+- name: install ceph-deploy
+  include: ceph-deploy.yml
+  when: admin_node is defined
+
+- name: add users
+  include: users.yml

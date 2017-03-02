@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.hostname = "node1"
+
+  playbook = 'node'
+
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ['modifyvm', :id, '--memory', '4096']
+  end
+
+  for i in 6800..7300
+    config.vm.network :forwarded_port, guest: i, host: i
+  end
+
+  config.vm.define "node1" do |node1|
+  end
+
+  eval(IO.read("../mixin.rb"), binding)
+
+end

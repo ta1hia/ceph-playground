@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.hostname = "admin"
+
+  playbook = 'admin'
+
+
+  config.vm.provider :virtualbox do |vb|
+    vb.name = "admin"
+    vb.customize ['modifyvm', :id, '--memory', '4096']
+  end
+
+  config.vm.define "admin" do |admin|
+  end
+
+  eval(IO.read("../mixin.rb"), binding)
+
+end
